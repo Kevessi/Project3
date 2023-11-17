@@ -20,26 +20,17 @@
           placeholder="Enter your name"
           required
         />
-        <select id="quiz-selector">
-          <!-- Options will be loaded here -->
-        </select>
+        <select id="quiz-selector"></select>
         <button type="submit" class="btn btn-primary">Start Quiz</button>
       </form>
     </div>
 
-    <div id="quiz-container" style="display: none">
-      <!-- Questions will be loaded here -->
-    </div>
+    <div id="quiz-container" style="display: none"></div>
 
-    <div id="scoreboard" style="display: none">
-      <!-- Scoreboard will be updated via JavaScript -->
-    </div>
+    <div id="scoreboard" style="display: none"></div>
 
-    <div id="final-message" style="display: none">
-      <!-- Final message will be rendered here -->
-    </div>
+    <div id="final-message" style="display: none"></div>
 
-    <!-- Multiple Choice Question Template -->
     <script id="mcq-template" type="text/x-handlebars-template">
       <div class="question mcq">
         <h2>{{question}}</h2>
@@ -52,7 +43,6 @@
       </div>
     </script>
 
-    <!-- Narrative Question Template -->
     <script id="narrative-template" type="text/x-handlebars-template">
       <div class="question narrative">
         <h2>{{question}}</h2>
@@ -61,7 +51,6 @@
       </div>
     </script>
 
-    <!-- Image Selection Question Template -->
     <script id="image-selection-template" type="text/x-handlebars-template">
       <div class="question image-selection">
         <h2>{{question}}</h2>

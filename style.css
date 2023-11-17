@@ -1,26 +1,28 @@
 body {
-  background-color: #f8f9fa;
-  font-family: "Arial", sans-serif;
+  background-color: #f0f8ff;
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 #user-entry-form,
 #quiz-container,
 #final-message {
   max-width: 700px;
-  margin: 2rem auto;
+  margin: 3rem auto;
   padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .question {
   margin-bottom: 2rem;
+  border-left: 4px solid #007bff;
+  padding-left: 1rem;
 }
 
 .question h2 {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
+  color: #2f4f4f;
   margin-bottom: 1rem;
 }
 
@@ -29,8 +31,19 @@ body {
   display: block;
   width: 100%;
   margin: 0.5rem 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #fff;
+  background-color: #32cd32;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.answer:hover,
+#submit-narrative:hover {
+  background-color: #228b22;
 }
 
 .image-option {
@@ -39,11 +52,12 @@ body {
   margin: 10px;
   border: 2px solid transparent;
   border-radius: 4px;
+  transition: transform 0.3s ease;
 }
 
 .image-option:hover {
+  transform: scale(1.1);
   border-color: #007bff;
-  cursor: pointer;
 }
 
 .scoreboard {
@@ -52,30 +66,30 @@ body {
   align-items: center;
   margin-bottom: 2rem;
   padding: 1rem;
-  background-color: #e9ecef;
+  background-color: #fffacd;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .scoreboard div {
   margin: 0.5rem;
+  color: #2f4f4f;
 }
 
 .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #1e90ff;
+  border-color: #1e90ff;
 }
 
 .btn-info {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
+  background-color: #ff69b4;
+  border-color: #ff69b4;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .answer,
   #submit-narrative {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .image-option {
     width: 80px;

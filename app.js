@@ -6,9 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentQuestionIndex = 0;
   let score = 0;
   let userName = "";
-  let currentQuizId = ""; // Add a variable to store the current quiz ID
+  let currentQuizId = "";
+  let currentQuestionData;
+  let currentQuizData = null;
+  let totalQuestions;
 
-  // Load quizzes when the page loads
   loadQuizzes();
 
   startQuizForm.addEventListener("submit", function (event) {
@@ -21,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function loadQuizzes() {
-    // Fetch the quizzes from the API
     fetch("https://my-json-server.typicode.com/Kevessi/Project3/quizzes")
       .then((response) => response.json())
       .then((quizzes) => {
@@ -33,25 +34,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
   }
+  function fetchQuizData(quizId) {
+    let url = `https://my-json-server.typicode.com/Kevessi/Project3/quizzes/${quizId}`;
+    return fetch(url)
+      .then((response) => response.json())
+      .then((quiz) => {
+        currentQuizData = quiz;
+      })
+      .catch((error) => console.error("Fetch error:", error.message));
+  }
 
   function loadQuiz(quizId, userName) {
     startQuizForm.style.display = "none";
     quizContainer.style.display = "block";
-    fetchQuestion(quizId, currentQuestionIndex);
+
+    fetchQuizData(quizId).then(() => {
+      if (currentQuizData && currentQuizData.questions) {
+        totalQuestions = currentQuizData.questions.length;
+        console.log("Total questions set to:", totalQuestions);
+        fetchQuestion(quizId, currentQuestionIndex);
+      } else {
+        console.error("Failed to load quiz data or quiz data is invalid.");
+      }
+    });
   }
 
   function fetchQuestion(quizId, questionIndex) {
-    fetch(
-      `https://my-json-server.typicode.com/Kevessi/Project3/quizzes/${quizId}/questions/${questionIndex}`
-    )
-      .then((response) => response.json())
-      .then((questionData) => {
-        if (questionData) {
-          renderQuestion(questionData);
-          attachAnswerHandlers();
-        }
-      })
-      .catch((error) => console.error("Error:", error));
+    if (!currentQuizData) {
+      let url = `https://my-json-server.typicode.com/Kevessi/Project3/quizzes/${quizId}`;
+      console.log("Fetching quiz from URL:", url);
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((quiz) => {
+          currentQuizData = quiz;
+          processQuestionData(questionIndex);
+        })
+        .catch((error) => console.error("Fetch error:", error.message));
+    } else {
+      processQuestionData(questionIndex);
+    }
+  }
+
+  function processQuestionData(questionIndex) {
+    if (questionIndex < currentQuizData.questions.length) {
+      currentQuestionData = currentQuizData.questions[questionIndex];
+      renderQuestion(currentQuestionData);
+      attachAnswerHandlers();
+    } else {
+      console.error("Question index out of range");
+    }
   }
 
   function renderQuestion(questionData) {
@@ -64,9 +96,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function attachAnswerHandlers() {
-    const answerButtons = document.querySelectorAll(".answer");
-    answerButtons.forEach((button) => {
+    const mcqAnswerButtons = document.querySelectorAll(".mcq .answer");
+    mcqAnswerButtons.forEach((button) => {
       button.addEventListener("click", function (event) {
+        const selectedAnswer = event.target.getAttribute("data-answer");
+        processAnswer(selectedAnswer);
+      });
+    });
+
+    const narrativeSubmitButton = document.getElementById("submit-narrative");
+    if (narrativeSubmitButton) {
+      narrativeSubmitButton.addEventListener("click", function () {
+        const narrativeAnswer = document
+          .getElementById("narrative-answer")
+          .value.trim();
+        processAnswer(narrativeAnswer);
+      });
+    }
+
+    const imageOptions = document.querySelectorAll(
+      ".image-selection .image-option"
+    );
+    imageOptions.forEach((image) => {
+      image.addEventListener("click", function (event) {
         const selectedAnswer = event.target.getAttribute("data-answer");
         processAnswer(selectedAnswer);
       });
@@ -74,25 +126,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function processAnswer(selectedAnswer) {
-    // Check if the selected answer is correct
-    // This part of the code will depend on how your question data is structured
-    // For simplicity, let's assume each questionData has a 'correctAnswer' field
-    if (selectedAnswer === questionData.correctAnswer) {
-      score++;
-      // Display a success message
-      displayFeedback(true);
+    let isCorrect = false;
+
+    if (currentQuestionData.type === "narrative") {
+      isCorrect =
+        selectedAnswer.toLowerCase() ===
+        currentQuestionData.answer.toLowerCase();
     } else {
-      // Display an error message with the correct answer
-      displayFeedback(false, questionData.correctAnswer);
+      isCorrect = selectedAnswer === currentQuestionData.answer;
+    }
+
+    if (isCorrect) {
+      score++;
+      console.log("Correct answer. Score: ", score);
+    } else {
+      console.log("Incorrect answer. Score: ", score);
     }
 
     currentQuestionIndex++;
-    // Check if there are more questions
+    console.log("Next question index: ", currentQuestionIndex);
+
     if (currentQuestionIndex < totalQuestions) {
-      // Fetch the next question
-      fetchQuestion(currentQuizId, currentQuestionIndex);
+      processQuestionData(currentQuestionIndex);
     } else {
-      // End the quiz
       endQuiz();
     }
   }
@@ -101,22 +157,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let feedbackMessage = isCorrect
       ? "Correct! Well done."
       : `Incorrect. The right answer was: ${correctAnswer}`;
-    // Code to display feedback message
-    // Hide feedback after a certain time and proceed to next question
   }
 
   function endQuiz() {
-    // Calculate the final score and display the final message
+    console.log("Quiz ended. Final Score: ", score); // Debugging line
     let finalScore = (score / totalQuestions) * 100;
     let finalMessage =
       finalScore >= 80
-        ? `Congratulations ${userName}! You passed the quiz with ${finalScore}%!`
-        : `Sorry ${userName}, you failed the quiz. Your score: ${finalScore}%`;
+        ? `Congratulations ${userName}! You passed the quiz with ${finalScore.toFixed(
+            2
+          )}%!`
+        : `Sorry ${userName}, you failed the quiz. Your score: ${finalScore.toFixed(
+            2
+          )}%`;
+
     document.getElementById("final-message").innerHTML = finalMessage;
     document.getElementById("final-message").style.display = "block";
-    // Hide the quiz container
     quizContainer.style.display = "none";
   }
-
-  // Additional functions to initialize the quiz, load quizzes, etc.
 });

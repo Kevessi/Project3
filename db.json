@@ -22,11 +22,33 @@
           "type": "image-selection",
           "question": "Select the image that correctly represents a binary tree.",
           "options": [
-            { "label": "A", "image": "url_to_image_A.jpg" },
-            { "label": "B", "image": "url_to_image_B.jpg" },
-            { "label": "C", "image": "url_to_image_C.jpg" }
+            {
+              "label": "A",
+              "image": "https://www.scaler.com/topics/images/iterate-hashmap-in-java_thumbnail.webp"
+            },
+            {
+              "label": "B",
+              "image": "https://media.geeksforgeeks.org/wp-content/cdn-uploads/binary-tree-to-DLL.png"
+            },
+            {
+              "label": "C",
+              "image": "https://pages.cs.wisc.edu/~ealexand/cs367/NOTES/AVL-Trees/avl1.png"
+            }
           ],
           "answer": "B"
+        },
+        {
+          "id": "q4",
+          "type": "mcq",
+          "question": "Which framework is primarily used for front-end web development?",
+          "options": ["Django", "Flask", "React", "Node.js"],
+          "answer": "React"
+        },
+        {
+          "id": "q5",
+          "type": "narrative",
+          "question": "Briefly explain what 'Polymorphism' means in Object-Oriented Programming.",
+          "answer": "Polymorphism in Object-Oriented Programming refers to the ability of a function or method to perform in different ways based on the object it is acting upon, meaning the same function or method can have different behaviors for different objects."
         }
       ]
     }
