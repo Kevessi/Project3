@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+  </head>
+  <body>
+    <div id="user-entry-form">
+      <form id="start-quiz-form">
+        <input
+          type="text"
+          id="user-name"
+          placeholder="Enter your name"
+          required
+        />
+        <select id="quiz-selector">
+          <!-- Options will be loaded here -->
+        </select>
+        <button type="submit" class="btn btn-primary">Start Quiz</button>
+      </form>
+    </div>
+
+    <div id="quiz-container" style="display: none">
+      <!-- Questions will be loaded here -->
+    </div>
+
+    <div id="scoreboard" style="display: none">
+      <!-- Scoreboard will be updated via JavaScript -->
+    </div>
+
+    <div id="final-message" style="display: none">
+      <!-- Final message will be rendered here -->
+    </div>
+
+    <!-- Multiple Choice Question Template -->
+    <script id="mcq-template" type="text/x-handlebars-template">
+      <div class="question mcq">
+        <h2>{{question}}</h2>
+        {{#each options}}
+          <button
+            class="answer btn btn-info"
+            data-answer="{{this}}"
+          >{{this}}</button>
+        {{/each}}
+      </div>
+    </script>
+
+    <!-- Narrative Question Template -->
+    <script id="narrative-template" type="text/x-handlebars-template">
+      <div class="question narrative">
+        <h2>{{question}}</h2>
+        <textarea id="narrative-answer" rows="3"></textarea>
+        <button id="submit-narrative" class="btn btn-primary">Submit</button>
+      </div>
+    </script>
+
+    <!-- Image Selection Question Template -->
+    <script id="image-selection-template" type="text/x-handlebars-template">
+      <div class="question image-selection">
+        <h2>{{question}}</h2>
+        {{#each options}}
+          <img
+            class="image-option"
+            src="{{this.image}}"
+            alt="Option {{this.label}}"
+            data-answer="{{this.label}}"
+          />
+        {{/each}}
+      </div>
+    </script>
+
+    <script src="app.js"></script>
+  </body>
+</html>

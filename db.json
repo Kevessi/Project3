@@ -1,0 +1,34 @@
+{
+  "quizzes": [
+    {
+      "id": "quiz1",
+      "title": "Programming Basics",
+      "questions": [
+        {
+          "id": "q1",
+          "type": "mcq",
+          "question": "Which data type is NOT primitive in JavaScript?",
+          "options": ["String", "Boolean", "Object", "Undefined"],
+          "answer": "Object"
+        },
+        {
+          "id": "q2",
+          "type": "narrative",
+          "question": "Explain the concept of closures in JavaScript.",
+          "answer": "Closures are functions that refer to independent variables. In other words, the function defined in the closure 'remembers' the environment in which it was created."
+        },
+        {
+          "id": "q3",
+          "type": "image-selection",
+          "question": "Select the image that correctly represents a binary tree.",
+          "options": [
+            { "label": "A", "image": "url_to_image_A.jpg" },
+            { "label": "B", "image": "url_to_image_B.jpg" },
+            { "label": "C", "image": "url_to_image_C.jpg" }
+          ],
+          "answer": "B"
+        }
+      ]
+    }
+  ]
+}
